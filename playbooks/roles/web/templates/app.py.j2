@@ -11,11 +11,10 @@ mysql_database_host = 'MYSQL_DATABASE_HOST' in os.environ and os.environ['MYSQL_
 
 
 f = open('/tmp/creds')
-
-
+db_name = f.readLine()
 
 # MySQL configurations
-app.config['MYSQL_DATABASE_USER'] = '{{}}'
+app.config['MYSQL_DATABASE_USER'] = db_name
 app.config['MYSQL_DATABASE_PASSWORD'] = '{{}}'
 app.config['MYSQL_DATABASE_DB'] = '{{}}'
 app.config['MYSQL_DATABASE_HOST'] = '{{}}'

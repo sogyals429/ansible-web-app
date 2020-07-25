@@ -1,0 +1,6 @@
+ansible_host: 52.187.246.68
+ansible_user: centos 
+ansible_ssh_private_key_file: azure-pubkey.pem
+db_name: employee_db
+db_user: db_user
+db_user_password: Passw0rd

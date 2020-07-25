@@ -14,5 +14,9 @@
       - flask
       - flask-mysql
 
+- name: "Create Temp DB Creds"
+  shell: |
+   echo {{ db_name}} \\n {{db_user}} \\n {{db_user_password}} >> /tmp/creds
+
 - name: Start web-application
   command: /usr/bin/app.py nohup flask run --host=0.0.0.0 &
