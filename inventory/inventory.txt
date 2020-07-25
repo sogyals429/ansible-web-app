@@ -1,0 +1,6 @@
+[web_servers]
+target1 ansible_host=13.75.226.188 ansible_user=centos ansible_ssh_private_key_file=azure-pubkey.pem
+target2 ansible_host=13.75.211.70 ansible_user=centos ansible_ssh_private_key_file=azure-pubkey.pem
+
+[db_servers]
+target1 ansible_host=13.70.125.149 ansible_user=centos ansible_ssh_private_key_file=azure-pubkey.pem

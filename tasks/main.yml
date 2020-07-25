@@ -1,0 +1,8 @@
+---
+- name: Web Server
+  hosts: web_servers
+  name: "Simple WebApp"
+  remote_user: root
+
+  tasks:
+    - ping:
