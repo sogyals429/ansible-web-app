@@ -1,0 +1,14 @@
+- name: Upgrade all packages
+  yum:
+    name: '*'
+    state: latest
+
+- name: "Install Common Packages"
+  yum:
+    name:
+      - epel-release
+      - wget
+      - firewalld
+      - git
+      - htop
+    state: latest

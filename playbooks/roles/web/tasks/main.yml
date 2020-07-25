@@ -1,0 +1,18 @@
+- name: "Generate config"
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: root
+    group: root
+    mode: "{{ item.mode }}"
+  with_items:
+    - { src: "app.py.j2", mode: "0755", dest: "/usr/bin/app.py" }
+
+- name: "Install Flask"
+  pip:
+    name:
+      - flask
+      - flask-mysql
+
+- name: Start web-application
+  command: /usr/bin/app.py nohup flask run --host=0.0.0.0 &

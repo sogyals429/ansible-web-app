@@ -1,0 +1,43 @@
+---
+ 
+# tasks file for mysql_db
+  - name: "Install MySQL community repository"
+    yum:
+      name: http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm
+      state: present
+
+  - name: "Download MYSQL"
+    yum:
+      name:
+        - mysql-server
+        - mysql-devel
+
+  - name: "Start MYSQL"
+    service:
+        name: mysqld
+        state: started
+        enabled: true
+
+  - name: "Install MySQL PIP Dependancies"
+    pip:
+      name: pymysql
+
+  - name: Create Application DB User
+    mysql_user:
+        name: "{{ db_user }}"
+        password: "{{ db_user_password }}"
+        priv: '*.*:ALL'
+        host: 'localhost'
+        state: 'present'
+
+  - name: Create Application Database
+    mysql_db:
+      name: "{{ db_name }}"
+      state: 'present'
+      login_user: "{{ db_user }}"
+      login_password: "{{ db_user_password }}"
+
+  - name: "Copy DB Credentials"
+    shell: |
+      echo {{ db_name}} \n {{db_user}} \n {{db_user_password}} >> /tmp/creds
+      hostname -I | awk '{print $1}' >> /tmp/creds
