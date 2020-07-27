@@ -36,7 +36,3 @@
       state: 'present'
       login_user: "{{ db_user }}"
       login_password: "{{ db_user_password }}"
-
-  - name: "Copy DB Credentials"
-    shell: |
-      hostname -I | awk '{print $1}' >> /tmp/creds
