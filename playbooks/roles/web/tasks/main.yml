@@ -17,7 +17,9 @@
 - name: "Create Temp DB Creds"
   shell: |
    > /tmp/creds
-   printf '{{db_name}},\n{{db_user}},\n{{db_user_password}}\n{{db_host}}' >> /tmp/creds
+   printf '{{db_name}},{{db_user}},{{db_user_password}},{{db_host}}' >> /tmp/creds
 
 - name: Start web-application
-  command: /usr/bin/app.py nohup flask run --host=0.0.0.0 &
+  shell: | 
+    export FLASK_APP=/usr/bin/app.py
+    /usr/local/bin/flask run --host=127.0.0.1 --port=80 &

@@ -11,12 +11,19 @@ mysql = MySQL()
 mysql_database_host = 'MYSQL_DATABASE_HOST' in os.environ and os.environ['MYSQL_DATABASE_HOST'] or  'localhost'
 
 
-f = open('/tmp/creds','r')
-lines = f.readLines()
-db_name = lines[0].strip()
-db_user = lines[1].strip()
-db_host = lines[3].strip()
-db_user_password = lines[2].strip()
+file = open('/tmp/creds','r')
+db_name = None
+db_user = None
+db_host = None
+db_user_password = None
+
+for line in file:
+    fields = line.split(',')
+    db_name = fields[0]
+    db_user = fields[1]
+    db_user_password = fields[2]
+    db_host = fields[3]
+file.close()
 
 # MySQL configurations
 app.config['MYSQL_DATABASE_USER'] = db_user

@@ -12,6 +12,13 @@
         - mysql-server
         - mysql-devel
 
+  - name: Update MySQL Configuration file to accept connections from all interfaces
+    ini_file:
+      path: /etc/mysql/my.cnf
+      section: mysqld
+      option: bind-address
+      value: 0.0.0.0
+
   - name: "Start MYSQL"
     service:
         name: mysqld
@@ -27,7 +34,7 @@
         name: "{{ db_user }}"
         password: "{{ db_user_password }}"
         priv: '*.*:ALL'
-        host: 'localhost'
+        host: '%'
         state: 'present'
 
   - name: Create Application Database
@@ -36,3 +43,9 @@
       state: 'present'
       login_user: "{{ db_user }}"
       login_password: "{{ db_user_password }}"
+  
+  - name: Re-start MySQL Service
+    service:
+      name: mysqld
+      state: restarted
+      enabled: yes
