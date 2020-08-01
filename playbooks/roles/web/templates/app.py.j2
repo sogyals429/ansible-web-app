@@ -1,5 +1,6 @@
-{%raw%}
+{%raw%}#!/usr/bin/python3
 import os
+import csv
 from flask import Flask
 from flaskext.mysql import MySQL      # For newer versions of flask-mysql
 # from flask.ext.mysql import MySQL   # For older versions of flask-mysql
@@ -10,14 +11,18 @@ mysql = MySQL()
 mysql_database_host = 'MYSQL_DATABASE_HOST' in os.environ and os.environ['MYSQL_DATABASE_HOST'] or  'localhost'
 
 
-f = open('/tmp/creds')
-db_name = f.readLine()
+f = open('/tmp/creds','r')
+lines = f.readLines()
+db_name = lines[0].strip()
+db_user = lines[1].strip()
+db_host = lines[3].strip()
+db_user_password = lines[2].strip()
 
 # MySQL configurations
-app.config['MYSQL_DATABASE_USER'] = db_name
-app.config['MYSQL_DATABASE_PASSWORD'] = '{{}}'
-app.config['MYSQL_DATABASE_DB'] = '{{}}'
-app.config['MYSQL_DATABASE_HOST'] = '{{}}'
+app.config['MYSQL_DATABASE_USER'] = db_user
+app.config['MYSQL_DATABASE_PASSWORD'] = db_user_password
+app.config['MYSQL_DATABASE_DB'] = db_name
+app.config['MYSQL_DATABASE_HOST'] = db_host
 mysql.init_app(app)
 
 conn = mysql.connect()
