@@ -7,6 +7,8 @@
     mode: "{{ item.mode }}"
   with_items:
     - { src: "app.py.j2", mode: "0755", dest: "/usr/bin/app.py" }
+    - { src: "start_service.sh.j2", mode: "0755", dest: "/usr/bin/start_service.sh" }
+    - { src: "web_app.service.j2", mode: "0644", dest: "/etc/systemd/system/web_app.service" } 
 
 - name: "Install Flask"
   pip:
@@ -17,9 +19,11 @@
 - name: "Create Temp DB Creds"
   shell: |
    > /tmp/creds
-   printf '{{db_name}},{{db_user}},{{db_user_password}},{{db_host}}' >> /tmp/creds
+   printf '{{db_name}},{{db_user}},{{db_user_password}}' >> /tmp/creds
 
 - name: Start web-application
-  shell: | 
-    export FLASK_APP=/usr/bin/app.py
-    /usr/local/bin/flask run --host=127.0.0.1 --port=80 &
+  systemd:
+    state: started
+    enabled: yes
+    daemon_reload: yes
+    name: web_app.service

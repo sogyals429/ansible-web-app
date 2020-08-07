@@ -14,7 +14,6 @@ mysql_database_host = 'MYSQL_DATABASE_HOST' in os.environ and os.environ['MYSQL_
 file = open('/tmp/creds','r')
 db_name = None
 db_user = None
-db_host = None
 db_user_password = None
 
 for line in file:
@@ -22,14 +21,13 @@ for line in file:
     db_name = fields[0]
     db_user = fields[1]
     db_user_password = fields[2]
-    db_host = fields[3]
 file.close()
 
 # MySQL configurations
 app.config['MYSQL_DATABASE_USER'] = db_user
 app.config['MYSQL_DATABASE_PASSWORD'] = db_user_password
 app.config['MYSQL_DATABASE_DB'] = db_name
-app.config['MYSQL_DATABASE_HOST'] = db_host
+app.config['MYSQL_DATABASE_HOST'] = "db-server-1"
 mysql.init_app(app)
 
 conn = mysql.connect()

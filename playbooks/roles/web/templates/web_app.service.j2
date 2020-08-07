@@ -1,0 +1,11 @@
+{% raw %}
+[Unit]
+Description=Start Web Service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/start_service.sh
+
+[Install]
+WantedBy=multi-user.target
+{% endraw %}
