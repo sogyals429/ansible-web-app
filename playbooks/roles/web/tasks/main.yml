@@ -1,3 +1,8 @@
+- name: "Install Common Packages"
+  yum: 
+    name: nginx
+    state: latest
+
 - name: "Generate config"
   template:
     src: "{{ item.src }}"
@@ -8,7 +13,19 @@
   with_items:
     - { src: "app.py.j2", mode: "0755", dest: "/usr/bin/app.py" }
     - { src: "start_service.sh.j2", mode: "0755", dest: "/usr/bin/start_service.sh" }
-    - { src: "web_app.service.j2", mode: "0644", dest: "/etc/systemd/system/web_app.service" } 
+    - { src: "web_app.service.j2", mode: "0644", dest: "/etc/systemd/system/web_app.service" }
+    - { src: "nginx.conf.j2" , mode: "0644", dest: "/etc/nginx/nginx.conf" }
+    - { src: "proxy.conf.j2" , mode: "0644", dest: "/etc/nginx/conf.d/proxy.conf" }
+
+- name: "SE Linux configs"
+  shell: |
+    semanage port -m -t http_port_t -p tcp 5000
+    semanage permissive -a httpd_t
+
+- name: "Check if HTTPD is enabled in SELinux"
+  shell: |
+    semanage permissive -l | if grep -q httpd_t;then echo true; else echo false; fi
+  register: selinux_installed
 
 - name: "Install Flask"
   pip:
@@ -21,9 +38,12 @@
    > /tmp/creds
    printf '{{db_name}},{{db_user}},{{db_user_password}}' >> /tmp/creds
 
-- name: Start web-application
+- name: Start relevant services
   systemd:
-    state: started
+    state: restarted
     enabled: yes
     daemon_reload: yes
-    name: web_app.service
+    name: "{{ item }}"
+  with_items: 
+    - web_app
+    - nginx

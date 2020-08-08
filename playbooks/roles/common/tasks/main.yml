@@ -11,4 +11,5 @@
       - firewalld
       - git
       - htop
+      - policycoreutils-python-utils-2.9-9.el8
     state: latest
