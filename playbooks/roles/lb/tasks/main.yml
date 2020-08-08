@@ -1,0 +1,47 @@
+- include_vars: vault.yml
+
+- name: "Install required packages"
+  yum: 
+    name: nginx
+    state: latest
+
+- name: "Generate config"
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: root
+    group: root
+    mode: "{{ item.mode }}"
+  with_items:
+    - { src: "nginx.conf.j2" , mode: "0644", dest: "/etc/nginx/nginx.conf" }
+
+- name: Start relevant services
+  systemd:
+    state: started
+    enabled: yes
+    daemon_reload: yes
+    name: "{{ item }}"
+  with_items: 
+    - nginx
+
+- name: Get Instance Public IP
+  get_url: 
+    url: http://169.254.169.254/metadata/instance/network/interface/0/ipv4/ipAddress/0/publicIpAddress?api-version=2017-08-01&format=text
+    dest: /tmp/ip
+    headers:
+      Metadata: true
+  register: lb_ip_address
+
+- debug:
+    var: lb_
+
+
+- name: Send notification email
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: sogyals429@gmail.com
+    password: "{{ gmail_password }}"
+    to: Sogyal Sherpa <sogyals429@hotmail.com>
+    subject: Ansible-report
+    body: 'Go to http://{{ lb_ip_address }} to access the web app.'

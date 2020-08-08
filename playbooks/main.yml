@@ -16,3 +16,12 @@
   roles:
    - common
    - web
+
+- name: LB Servers
+  hosts: lb_servers
+  remote_user: root
+  become: yes
+
+  roles: 
+    - common
+    - lb
