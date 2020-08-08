@@ -1,5 +1,3 @@
-- include_vars: vault.yml
-
 - name: "Install required packages"
   yum: 
     name: nginx
@@ -30,18 +28,17 @@
     dest: /tmp/ip
     headers:
       Metadata: true
+
+- name: Register Public IP
+  shell: cat /tmp/ip
   register: lb_ip_address
-
-- debug:
-    var: lb_
-
 
 - name: Send notification email
   mail:
     host: smtp.gmail.com
     port: 587
-    username: sogyals429@gmail.com
+    username: "{{ gmail_username }}"
     password: "{{ gmail_password }}"
-    to: Sogyal Sherpa <sogyals429@hotmail.com>
+    to: Sogyal Sherpa <"{{ to_email }}">
     subject: Ansible-report
-    body: 'Go to http://{{ lb_ip_address }} to access the web app.'
+    body: 'Go to http://{{ lb_ip_address.stdout }} to access the web app.'
