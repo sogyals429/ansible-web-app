@@ -23,7 +23,6 @@ This is a solution for the Ansible Assignment on Udemy https://www.udemy.com/lea
 ├── Makefile
 ├── README.md
 ├── ansible.cfg
-├── azure-pubkey.pem
 └── playbooks
     ├── group_vars
     │   └── all.yml
