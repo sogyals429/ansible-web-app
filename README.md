@@ -59,7 +59,7 @@ This is a solution for the Ansible Assignment on Udemy https://www.udemy.com/lea
   
 
 ## How to implement
-- Clone the repository [git@github.com:sogyals429/ansible-web-app.git]
+- Clone the repository
 - Update the following variables in `group_vars/all.yml`:
 	- db_user
 	- db_user_password
@@ -86,10 +86,6 @@ $ANSIBLE_VAULT;1.1;AES256
 
 ## Issues
 For any issues please raise any PR's or raise issues in this project.
-
-## Want to Help?
-
-Feel free to make an PR's or raise any issues 😍
 
 ## License
 
