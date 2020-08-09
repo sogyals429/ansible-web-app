@@ -20,13 +20,12 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
-
     - name: Install Required Tools
       run: |
-        sudo apt update
-        sudo apt install software-properties-common
-        sudo apt-add-repository --yes --update ppa:ansible/ansible
-        sudo apt install ansible
+        apt update
+        apt install software-properties-common
+        apt-add-repository --yes --update ppa:ansible/ansible
+        apt install ansible
     
-    - name: Show current dir
-      run: ls
+    - name: Install Azure cli
+      run: curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
