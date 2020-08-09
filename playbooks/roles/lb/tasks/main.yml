@@ -40,5 +40,5 @@
     username: "{{ gmail_username }}"
     password: "{{ gmail_password }}"
     to: Sogyal Sherpa <"{{ to_email }}">
-    subject: Ansible-report
-    body: 'Go to http://{{ lb_ip_address.stdout }} to access the web app.'
+    subject: Web App Deployed
+    body: 'Please visit http://{{ lb_ip_address.stdout }} to access the web app.'
