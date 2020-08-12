@@ -1,15 +1,12 @@
-- name: Upgrade all packages
-  yum:
-    name: '*'
-    state: latest
+---
 
-- name: "Install Common Packages"
-  yum:
-    name:
-      - epel-release
-      - wget
-      - firewalld
-      - git
-      - htop
-      - policycoreutils-python-utils-2.9-9.el8
-    state: latest
+- name: Check if OS is supported
+  include_tasks: os-check.yml
+
+- name: Centos Install Tasks
+  include_tasks: common_linux.yml
+  when: ansible_os_family == "CentOS"
+
+- name: Ubuntu Install Tasks
+  include_tasks: common_ubuntu.yml
+  when: ansible_os_family == "Debian"

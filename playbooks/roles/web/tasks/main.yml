@@ -19,8 +19,9 @@
 
 - name: "SE Linux configs"
   shell: |
-    semanage port -m -t http_port_t -p tcp 5000
+    semanage port -m -t http_port_t -p tcp {{se_linux_port_number}}
     semanage permissive -a httpd_t
+    echo {{se_linux_port_number}} > /tmp/port
 
 - name: "Check if HTTPD is enabled in SELinux"
   shell: |

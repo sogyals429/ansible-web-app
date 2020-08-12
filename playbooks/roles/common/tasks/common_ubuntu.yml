@@ -1,0 +1,14 @@
+- name: Upgrade all packages
+  apt:
+    name: '*'
+    state: latest
+
+- name: "Install Common Packages"
+  apt:
+    name:
+      - wget
+      - firewalld
+      - git
+      - htop
+      - policycoreutils
+    state: latest

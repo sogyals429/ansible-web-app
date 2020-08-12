@@ -1,4 +1,14 @@
 {% raw %}#! /usr/bin/env bash
+
+# Export Flask Application
 export FLASK_APP=/usr/bin/app.py
-/usr/local/bin/flask run --host=127.0.0.1 --port=5000
+
+port=$(cat /tmp/port)
+
+# Replace Port to nginx
+sed -i "s/PORT/$port_number/g" /proxy.conf
+
+# Start Web Application
+/usr/local/bin/flask run --host=127.0.0.1 --port=$port
+
 {% endraw %}
