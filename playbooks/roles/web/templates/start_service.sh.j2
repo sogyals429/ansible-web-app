@@ -6,7 +6,7 @@ export FLASK_APP=/usr/bin/app.py
 port=$(cat /tmp/port)
 
 # Replace Port to nginx
-sed -i "s/PORT/$port_number/g" /proxy.conf
+sudo sed -i "s/PORT_NUMBER/$port/g" /etc/nginx/conf.d/proxy.conf
 
 # Start Web Application
 /usr/local/bin/flask run --host=127.0.0.1 --port=$port

@@ -1,11 +1,8 @@
 ---
 
-- name: Check if OS is supported
-  include_tasks: os-check.yml
-
 - name: Centos Install Tasks
   include_tasks: common_linux.yml
-  when: ansible_os_family == "CentOS"
+  when: ansible_os_family == "RedHat"
 
 - name: Ubuntu Install Tasks
   include_tasks: common_ubuntu.yml
